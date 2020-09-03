@@ -2,6 +2,7 @@ val groovyVersion: String by project
 val spockVersion: String by project
 val okHttpVersion: String by project
 val apacheLangVersion: String by project
+val swaggerVersion: String by project
 
 plugins {
     groovy
@@ -68,6 +69,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.flywaydb:flyway-core")
     implementation("com.opentable.components:otj-pg-embedded:0.13.0")
+
+    implementation("io.springfox:springfox-boot-starter:$swaggerVersion")
 
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
