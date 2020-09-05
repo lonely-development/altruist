@@ -9,6 +9,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -24,11 +25,11 @@ import java.util.UUID;
 @SuppressWarnings("unused")
 public class TradeEntity extends BaseEntity {
 
-    @Min(0)
+    @Min(1)
     @Column(name = "quantity", nullable = false, updatable = false)
     private Integer quantity;
 
-    @Min(0)
+    @DecimalMin(value = "0.0", inclusive = false)
     @Column(name = "price", nullable = false, updatable = false)
     private BigDecimal price;
 

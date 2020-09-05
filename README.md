@@ -33,5 +33,7 @@ Make sure to write tests (JUnit 5 or Spock).  Create a branch for the following:
 ## Running the project
     ./gradlew bootRun
     
-## Swagger page
+## Swagger page    
     http://localhost:8080/swagger-ui/
+     
+    (requires: localdev spring profile)

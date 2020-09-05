@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -25,12 +26,12 @@ public class TradeDto {
     private UUID accountId;
 
     @NotNull
-    @Min(0)
+    @Min(1)
     @JsonView(View.Create.class)
     private Integer quantity;
 
     @NotNull
-    @Min(0)
+    @DecimalMin(value = "0.0", inclusive = false)
     @JsonView(View.Create.class)
     private BigDecimal price;
 

@@ -1,8 +1,8 @@
 package com.altruist.account;
 
 import com.altruist.IdDto;
+import com.altruist.base.BaseController;
 import com.altruist.common.View;
-import com.altruist.trade.TradeService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.UUID;
@@ -28,10 +27,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/accounts")
 @Slf4j
 @RequiredArgsConstructor
-public class AccountController {
+public class AccountController extends BaseController {
 
     private final AccountService accountService;
-    private final TradeService tradeService;
 
     @GetMapping(value = "/{id}", produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<AccountDto> getById(@PathVariable UUID id) {
@@ -59,10 +57,7 @@ public class AccountController {
 
         log.info("Received Account creation request [{}].", accountDto);
         UUID accountId = accountService.createAccount(accountDto);
-        return ResponseEntity.created(
-                new URI(httpServletRequest.getRequestURL() + "/" +
-                        accountId.toString()))
-                             .body(new IdDto(accountId));
+        return buildCreatedResponse(httpServletRequest, accountId);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.altruist.trade;
 
 import com.altruist.IdDto;
+import com.altruist.base.BaseController;
 import com.altruist.common.View;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +27,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 @RestController
 @RequestMapping("/trades")
-public class TradeController {
+public class TradeController extends BaseController {
 
     private final TradeService tradeService;
 
@@ -66,10 +66,7 @@ public class TradeController {
 
         UUID tradeId = tradeService.create(tradeDto);
 
-        return ResponseEntity
-                .created(new URI(httpServletRequest
-                        .getRequestURL() + "/" + tradeId.toString()))
-                .body(new IdDto(tradeId));
+        return buildCreatedResponse(httpServletRequest, tradeId);
     }
 
     @PatchMapping(path = "/{id}/cancel")

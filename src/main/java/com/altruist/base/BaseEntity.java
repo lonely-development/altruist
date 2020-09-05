@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Data
 @MappedSuperclass
-public class BaseEntity {
+public abstract class BaseEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")
