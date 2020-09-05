@@ -9,7 +9,8 @@ import javax.sql.DataSource
 import java.sql.SQLException
 
 @Configuration
-class RepoConfig {
+class RepositoryConfig {
+
     @Profile("test")
     @Bean(destroyMethod = "close")
     Sql sql(DataSource dataSource) throws SQLException {

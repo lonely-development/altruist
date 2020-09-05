@@ -69,6 +69,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.flywaydb:flyway-core")
     implementation("com.opentable.components:otj-pg-embedded:0.13.0")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
     implementation("io.springfox:springfox-boot-starter:$swaggerVersion")
 

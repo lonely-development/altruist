@@ -9,3 +9,6 @@ spring:
 logging.level.com.altruist: DEBUG
 logging.level.org.springframework.web.client: DEBUG
 logging.level.org.apache.http.wire: DEBUG
+
+logging.level.org.hibernate.SQL: DEBUG
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE

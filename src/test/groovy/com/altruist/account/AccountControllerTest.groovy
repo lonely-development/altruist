@@ -1,5 +1,6 @@
 package com.altruist.account
 
+import com.altruist.trade.TradeService
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -15,8 +16,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 
-@WebMvcTest(controllers = [AccountCtrl])
-class AccountCtrlTest extends Specification {
+@WebMvcTest(controllers = [AccountController])
+class AccountControllerTest extends Specification {
+
     @Autowired
     MockMvc mvc
 
@@ -24,30 +26,38 @@ class AccountCtrlTest extends Specification {
     ObjectMapper objectMapper
 
     @Autowired
-    AccountSrv mockAccountSrv
+    AccountService mockAccountService
 
-    def "Should accept account requests"() {
+    @Autowired
+    TradeService mockTradeService
+
+    def "Should accept account requests and ignore set id"() {
         given: "an account request"
-        AccountDto req = new AccountDto(
+        AccountDto request = new AccountDto(
+                id: UUID.randomUUID(),
                 username: "username123",
                 email: "email@example.com",
-                name: "Some Name",
-                street: "Some street",
-                city: "Some city",
-                state: "CA",
-                zipcode: 99999
+                address: null
         )
+
+        AccountDto expectedRequest = new AccountDto(
+                id: null, // id should be ignored when writing
+                username: request.username,
+                email: request.email,
+                address: null
+        )
+
         UUID expectedId = UUID.randomUUID()
 
         when: "the request is submitted"
         ResultActions results = mvc.perform(post("/accounts")
                 .accept(APPLICATION_JSON)
                 .contentType(APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(req))
+                .content(objectMapper.writeValueAsString(request))
         )
 
         then: "the request is processed"
-        1 * mockAccountSrv.createAccount(req) >> expectedId
+        1 * mockAccountService.createAccount(expectedRequest) >> expectedId
 
         and: "a Created response is returned"
         results.andExpect(status().isCreated())
@@ -63,8 +73,13 @@ class AccountCtrlTest extends Specification {
         DetachedMockFactory factory = new DetachedMockFactory()
 
         @Bean
-        AccountSrv accountSrv() {
-            factory.Mock(AccountSrv)
+        AccountService accountService() {
+            factory.Mock(AccountService)
+        }
+
+        @Bean
+        TradeService tradeService() {
+            factory.Mock(TradeService)
         }
     }
 }

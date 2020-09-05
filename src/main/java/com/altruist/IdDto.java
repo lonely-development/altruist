@@ -1,9 +1,10 @@
 package com.altruist;
 
-import java.util.UUID;
-import lombok.AllArgsConstructor;
+import lombok.Value;
 
-@AllArgsConstructor
+import java.util.UUID;
+
+@Value
 public class IdDto {
-  public UUID id;
+  UUID id;
 }

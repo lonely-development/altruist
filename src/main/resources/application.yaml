@@ -33,9 +33,14 @@ spring:
       - ${embedded-db.schema}
     enabled: true
     mixed: true
+  jpa:
+    properties:
+      hibernate:
+        default_schema: ${embedded-db.schema}
 http:
   timeout-seconds: 60
 
 # Logging settings
 logging.level.: INFO
 logging.level.com.altruist: INFO
+
